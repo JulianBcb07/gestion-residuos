@@ -1,3 +1,6 @@
+{{-- Es una variable que se pasa atraves de las vistas de la aplicacion --}}
+@props(['breadcrumb' => [],])
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -34,7 +37,16 @@
     @include('layouts.includes.admin.aside')
 
     <div class="p-4 sm:ml-64">
-        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg mt-14">
+
+        <div class="mt-20 -mb-14 flex justify-between items-center">
+            @include('layouts.includes.admin.breadcrumb')
+
+            @isset($action)
+                {{$action}}
+            @endisset
+        </div>
+
+        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg mt-20">
             
             {{$slot}}
 
@@ -54,6 +66,7 @@
     </script>
     @endif
 
+    @stack('js')
 </body>
 
 </html>
