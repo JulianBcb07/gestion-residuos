@@ -64,4 +64,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Relacion uno a muchos inversa a nivel eloquent
+
+    public function instituto()
+    {
+        return $this->belongsTo(Institutos::class);
+    }
 }

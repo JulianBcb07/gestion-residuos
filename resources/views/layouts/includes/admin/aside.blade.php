@@ -5,17 +5,22 @@
                 'url' => route('admin.dashboard'),
                 'active' => request()->routeIs('admin.dashboard'),
                 'icon' => 'fa-solid fa-gauge-high',
-                'can' => ['Acceso a Inicio']
+                'can' => ['Acceso a Administración']
             ], [
                 'name' => 'Zonas de la universidad',
-                'url' => route('admin.dashboard'),
-                'active' => request()->routeIs('admin.dashboard'),
-                'icon' => 'fa-solid fa-gauge-high',
+                'url' => route('admin.zonas.index'),
+                'active' => request()->routeIs('admin.zonas.*'),
+                'icon' => 'fa-solid fa-flag',
             ], [
                 'name' => 'Areas de la universidad',
-                'url' => route('admin.dashboard'),
-                'active' => request()->routeIs('admin.dashboard'),
-                'icon' => 'fa-solid fa-gauge-high',
+                'url' => route('admin.areas.index'),
+                'active' => request()->routeIs('admin.areas.*'),
+                'icon' => 'fa-solid fa-monument',
+            ], [
+                'name' => 'Subproductos',
+                'url' => route('admin.subproductos.index'),
+                'active' => request()->routeIs('admin.subproductos.*'),
+                'icon' => 'fa-solid fa-bottle-water',
             ], [
                 'name' => 'Roles',
                 'url' => route('admin.roles.index'),
@@ -33,6 +38,12 @@
                 'url' => route('admin.users.index'),
                 'active' => request()->routeIs('admin.users.*'),
                 'icon' => 'fa-solid fa-users',
+                'can' => ['Gestion de Usuarios']
+            ], [
+                'name' => 'Mi tecnológico',
+                'url' => route('admin.institutos.index'),
+                'active' => request()->routeIs('admin.institutos.*'),
+                'icon' => 'fa-solid fa-school',
                 'can' => ['Gestion de Usuarios']
             ],
             
