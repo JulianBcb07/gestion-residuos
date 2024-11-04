@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GraficasController;
 use App\Http\Controllers\RegistroSemanalController;
+use App\Http\Controllers\RegistroSubproductoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -9,6 +10,7 @@ Route::get('/', function () {
 });
 
 Route::resource('/gensemanal', RegistroSemanalController::class);
+Route::resource('/gensubproductos', RegistroSubproductoController::class);
 
 Route::get('graficas', [GraficasController::class, 'show'])->name('graficas');
 

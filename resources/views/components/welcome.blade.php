@@ -63,7 +63,7 @@
             </p>
 
             <p class="mt-4 text-sm">
-                <a href="{{route('gensemanal.index')}}" class="inline-flex items-center font-semibold text-indigo-700">
+                <a href="{{route('gensubproductos.index')}}" class="inline-flex items-center font-semibold text-indigo-700">
                     Ingresar un nuevo registro
 
                     <svg viewBox="0 0 20 20" class="ms-1 w-5 h-5 fill-indigo-500">

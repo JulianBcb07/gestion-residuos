@@ -13,9 +13,11 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
         <!-- Styles -->
         @livewireStyles
+
     </head>
     <body class="font-sans antialiased">
         <x-banner />
@@ -36,6 +38,9 @@
             <main>
                 {{ $slot }}
             </main>
+
+
+            @livewire('footer')
         </div>
 
         @stack('modals')

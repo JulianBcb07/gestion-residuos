@@ -3,4 +3,5 @@
         'name' => 'Home',
     ],
 ]">
+
 </x-admin-layout>
