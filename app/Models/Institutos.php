@@ -71,7 +71,7 @@ class Institutos extends Model
 
     public function genSubproductos()
     {
-        return $this->hasMany(GenSubprodcuto::class);
+        return $this->hasMany(GenSubproducto::class);
     }
 
     // Relacion uno a muchos polimorfica a nivel eloquente entre imagenes e institutos

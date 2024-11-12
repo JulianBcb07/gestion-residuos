@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('gen_subprodcutos', function (Blueprint $table) {
+        Schema::create('gen_subproductos', function (Blueprint $table) {
             $table->id();
             $table->dateTime('fecha');
             $table->double('valor_kg', 8, 3);
@@ -22,10 +22,10 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations.en r
      */
     public function down(): void
     {
-        Schema::dropIfExists('gen_subprodcutos');
+        Schema::dropIfExists('gen_subproductos');
     }
 };
