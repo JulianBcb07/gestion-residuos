@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('gen_subproductos', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('fecha');
+            $table->date('fecha');
             $table->double('valor_kg', 8, 3);
             $table->foreignId('instituto_id')->constrained();
             $table->foreignId('subproducto_id')->constrained();

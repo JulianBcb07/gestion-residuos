@@ -41,7 +41,6 @@ class Institutos extends Model
         );
     }
 
-
     // Relacion uno a muchos a nivel eloquent
 
     public function users()

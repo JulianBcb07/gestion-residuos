@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('percapita_totals', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('fecha');
+            $table->date('fecha');
             $table->double('total', 8, 3);
             $table->foreignId('instituto_id')->constrained();
             $table->timestamps();

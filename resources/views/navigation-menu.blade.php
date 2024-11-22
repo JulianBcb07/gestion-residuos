@@ -26,8 +26,8 @@
         ],
         [
             'name' => 'Evidencias de generación',
-            'url' => route('dashboard'),
-            'active' => false,
+            'url' => route('evidenciasGenerado.index'),
+            'active' => request()->routeIs('evidenciasGenerado.index'),
         ],
         [
             'name' => 'Datos generados',

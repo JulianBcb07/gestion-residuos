@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
+            $table->date('fecha');
             $table->string('url_image');
             $table->text('descripcion');
             $table->morphs('imageable'); // Es una tabla polimorfica por si requiere una relacion con otra tabla

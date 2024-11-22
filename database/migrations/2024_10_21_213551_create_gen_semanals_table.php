@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('gen_semanals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('zonas_areas_id')->constrained()->onDelete('restrict');
-            $table->dateTime('fecha');
+            $table->date('fecha');
             $table->string('turno');
             $table->double('valor_kg', 8, 3);
             $table->timestamps();
