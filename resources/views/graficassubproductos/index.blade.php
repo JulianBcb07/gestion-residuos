@@ -569,5 +569,4 @@
 
     @vite('resources/js/app.js')
 
-
 </x-app-layout>
