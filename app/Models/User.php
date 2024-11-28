@@ -20,6 +20,9 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
     use HasRoles;
 
+    /** Esto nos sirve en el area de pruebas de manera ficticias en la base de datos
+     *  La clase $fillable son los atributos que se asignan desde la base de datos. */
+
     /**
      * The attributes that are mass assignable.
      *

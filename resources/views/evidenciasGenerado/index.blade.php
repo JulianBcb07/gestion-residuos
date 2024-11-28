@@ -1,11 +1,15 @@
 <x-app-layout>
-    <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-        <div class="px-4 pt-5 pb-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+        <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Evidencias de valorización') }}
+        </h2>
+    </x-slot>
+        <div class="px-4 pt-8 pb-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
             <!-- Start coding here -->
             <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
                 {{-- Los apartados de acciones a la tabla --}}
                 <div
-                    class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+                    class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-5">
                     {{-- Buscador --}}
                     <div class="w-full md:w-1/2">
                         <form class="flex items-center" method="GET" action="">
@@ -39,14 +43,13 @@
                         </a>
                     </div>
                 </div>
-                <div class="overflow-x-auto" id="table-container">
+                <div class="overflow-x-auto p-5" id="table-container">
                     @include('evidenciasGenerado.partials.table', [
                         'evidenciasGenerado' => $evidenciasGenerado,
                     ])
                 </div>
             </div>
         </div>
-    </section>
 
     @push('js')
         <script>

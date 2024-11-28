@@ -6,8 +6,7 @@
                 <h2 class="font-semibold text-xl text-gray-600">Generación Semanal de Subproductos en el
                     {{ $instituto->nombre }}</h2>
                 <p class="text-lg text-gray-500 mb-6">Es importante contar con la bitacora de subproductos para poder
-                    capturar lo
-                    que se generó durante la semana.</p>
+                    capturar lo que se generó durante la semana.</p>
 
                 <form action="{{ route('gensubproductos.store') }}" method="POST">
 

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('zonas_areas_id')->constrained()->onDelete('restrict');
             $table->date('fecha');
             $table->string('turno');
-            $table->double('valor_kg', 8, 3);
+            $table->double('valor_kg', 8, 3)->nullable();
             $table->timestamps();
         });
     }

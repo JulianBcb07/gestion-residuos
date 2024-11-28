@@ -263,7 +263,6 @@ class RegistroSubproductoController extends Controller
     public function updateMultiple(Request $request)
     {
         // Validar los datos del formulario recibidos
-        // Validar los datos del formulario recibidos
         $request->validate([
             'instituto_id' => 'required|exists:institutos,id',
             'inicio' => 'required|date|before_or_equal:final',

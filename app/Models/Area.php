@@ -24,7 +24,7 @@ class Area extends Model
     }
 
 
-    // Relacion uno a muchos entre areas y gen semanal
+    // Relacion uno a muchos entre areas y gen semanal - Recordar que un area puede estar asociada a varias zonas en la tabla intermedia 
 
     public function zonas_areas()
     {

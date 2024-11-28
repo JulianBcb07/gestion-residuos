@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	const currentURL = window.location.href;
 
 	// Verificamos is la URL de la pagina actual coincide con la pagina de las graficas
-	if (!currentURL.includes('/graficassubproductos')) {
+	if (!currentURL.includes('/graficassemanal')) {
 		return;
 	}
 
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				valoresPorSubproducto[item.nombre][item.fecha] = 0;
 			}
 
-			valoresPorSubproducto[item.nombre][item.fecha] += item.valor_kg;
+			valoresPorSubproducto[item.nombre][item.fecha] += item.total_kg;
 		});
 
 		// Ordenar las fechas de forma ascendente
@@ -92,9 +92,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// Función para obtener los datos del gráfico desde el servidor
 	function fetchTrendData(periodo = 'Todo', startDate = null, endDate = null) {
-		let url = `/graficassubproductos/data?tipoGrafico=lineChart&periodo=${periodo}`;
+		let url = `/graficassemanal/data?tipoGrafico=lineChart&periodo=${periodo}`;
 		if (startDate && endDate) {
-			url = `/graficassubproductos/data?tipoGrafico=lineChart&startDate=${startDate}&endDate=${endDate}`;
+			url = `/graficassemanal/data?tipoGrafico=lineChart&startDate=${startDate}&endDate=${endDate}`;
 		}
 
 		fetch(url, {

@@ -24,14 +24,13 @@ class GraficasSubproductosController extends Controller
     // Fetch Data for a specific graph via AJAX / Obtener datos de una grafica especifica via AJAX
     public function fetchGraphData(Request $request)
     {
-
         $tipoGrafica = $request->input('tipoGrafico');
         $periodo = $request->input('periodo', 'Todo');
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
 
         $baseQuery = GenSubproducto::query();
-        $this->applyDateFilters($baseQuery, $periodo, $startDate, $endDate);
+        $this->applyDataFilters($baseQuery, $periodo, $startDate, $endDate);
 
         switch ($tipoGrafica) {
             case 'top3':
@@ -64,7 +63,7 @@ class GraficasSubproductosController extends Controller
     }
 
     // Apply date filters to a query / Aplicar los filtros de fecha a la consulta
-    private function applyDateFilters($query, $periodo, $startDate, $endDate)
+    private function applyDataFilters($query, $periodo, $startDate, $endDate)
     {
         if ($startDate && $endDate) {
             $query->whereBetween('fecha', [
@@ -89,6 +88,7 @@ class GraficasSubproductosController extends Controller
         }
     }
 
+    // Funciones para obtener los datos de cada grafica de generacion de subproductos
 
     // Get top 3 subproducts data / Obtener datos de top 3 subproductos
     private function getTop3Subproductos($query)
@@ -132,6 +132,7 @@ class GraficasSubproductosController extends Controller
             ->select('subproducto_id')
             ->groupBy('subproducto_id')
             ->selectRaw('SUM(valor_kg) as total_kg')
+            ->orderByRaw('SUM(valor_kg) DESC')
             ->get()
             ->map(function ($item) {
                 return [

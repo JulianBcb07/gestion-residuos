@@ -22,6 +22,7 @@ class ZonasAreas extends Model
         return $this->belongsTo(Area::class);
     }
 
+    // Indico que un registro de zonas_areas (zona_id con su area_id puede tener muchos registros de generacion semanal)
     public function genSemanal()
     {
         return $this->hasMany(genSemanal::class);

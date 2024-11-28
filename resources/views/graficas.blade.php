@@ -29,7 +29,7 @@
                             </p>
 
                             <p class="mt-4 text-sm">
-                                <a href="{{ route('gensemanal.index') }}"
+                                <a href="{{ route('graficassemanal.index') }}"
                                     class="inline-flex items-center font-semibold text-indigo-700">
                                     Ir a graficas
 
