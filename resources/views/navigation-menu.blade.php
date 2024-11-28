@@ -4,16 +4,20 @@
     url -> la ruta de esa seccion
     active -> determina en que url o seccion estamos y lo pone como activo  --}}
 @php
-    $links = [
+    $linkspublicos = [
         [
             'name' => 'Inicio',
             'url' => route('dashboard'),
             'active' => request()->routeIs('dashboard'),
         ],
+    ];
+
+    // Links para usuarios autenticados
+    $linkslogin = [
         [
             'name' => 'Graficas',
-            'url' => route('dashboard'),
-            'active' => false,
+            'url' => route('graficas'),
+            'active' => request()->routeIs('graficas'),
         ],
         [
             'name' => 'Predicciones',
@@ -21,9 +25,9 @@
             'active' => false,
         ],
         [
-            'name' => 'Evidencias de generación',
-            'url' => route('dashboard'),
-            'active' => false,
+            'name' => 'Evidencias de valorización',
+            'url' => route('evidenciasGenerado.index'),
+            'active' => request()->routeIs('evidenciasGenerado.index'),
         ],
         [
             'name' => 'Datos generados',
@@ -38,7 +42,7 @@
     ];
 @endphp
 
-<nav x-data="{ open: false }" class="bg-blue-900 border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-customColor border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -53,11 +57,19 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     {{-- en esta parte usamos un ciclo foreach para iterar en cada link y determinar cual es el seleccionado --}}
-                    @foreach ($links as $link)
+                    @foreach ($linkspublicos as $link)
                         <x-nav-link :href="$link['url']" :active="$link['active']">
                             {{ $link['name'] }}
                         </x-nav-link>
                     @endforeach
+
+                    @auth
+                        @foreach ($linkslogin as $link)
+                            <x-nav-link :href="$link['url']" :active="$link['active']">
+                                {{ $link['name'] }}
+                            </x-nav-link>
+                        @endforeach
+                    @endauth
                 </div>
             </div>
 
@@ -96,6 +108,12 @@
                                 <div class="block px-4 py-2 text-xs text-gray-400">
                                     {{ __('Manage Account') }}
                                 </div>
+
+                                @can('Acceso a Administración')
+                                    <x-dropdown-link href="{{ route('admin.dashboard') }}">
+                                        {{ __('Administrador') }}
+                                    </x-dropdown-link>
+                                @endcan
 
                                 <x-dropdown-link href="{{ route('profile.show') }}">
                                     {{ __('Profile') }}
@@ -154,12 +172,19 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            @foreach ($links as $link)
-            {{-- de la misma manera iteremos con foreach para ver que seccion esta activa y que se muestre en la plantilla --}}
+            @foreach ($linkspublicos as $link)
                 <x-responsive-nav-link :href="$link['url']" :active="$link['active']">
                     {{ $link['name'] }}
                 </x-responsive-nav-link>
             @endforeach
+
+            @auth
+                @foreach ($linkslogin as $link)
+                    <x-responsive-nav-link :href="$link['url']" :active="$link['active']">
+                        {{ $link['name'] }}
+                    </x-responsive-nav-link>
+                @endforeach
+            @endauth
 
             @guest {{-- la directiva guest muestra contenido siempre y cuando no se haya iniciado sesion.
                 en este caso se usa para que cuando se inicie sesion, las opciones de login se oculten --}}

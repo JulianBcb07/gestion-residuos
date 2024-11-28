@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -17,6 +18,10 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use HasRoles;
+
+    /** Esto nos sirve en el area de pruebas de manera ficticias en la base de datos
+     *  La clase $fillable son los atributos que se asignan desde la base de datos. */
 
     /**
      * The attributes that are mass assignable.
@@ -61,5 +66,12 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Relacion uno a muchos inversa a nivel eloquent
+
+    public function instituto()
+    {
+        return $this->belongsTo(Institutos::class);
     }
 }
