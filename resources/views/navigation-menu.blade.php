@@ -30,7 +30,7 @@
             'active' => request()->routeIs('evidenciasGenerado.index'),
         ],
         [
-            'name' => 'Datos generados',
+            'name' => 'Meta Anual',
             'url' => route('dashboard'),
             'active' => false,
         ],

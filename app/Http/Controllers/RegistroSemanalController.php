@@ -139,7 +139,7 @@ class RegistroSemanalController extends Controller
      */
     public function show(GenSemanal $genSemanal)
     {
-        //
+        return view('gensemanal.show');
     }
 
     /**

@@ -12,7 +12,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+Route::get('/gensemanal/search', [RegistroSemanalController::class, 'search'])->name('gensemanal.search');
 Route::resource('/gensemanal', RegistroSemanalController::class);
 Route::get('/gensemanal/edit/{fecha}/{turno}', [RegistroSemanalController::class, 'edit'])->name('gensemanal.editAll');
 Route::put('/gensemanal', [RegistroSemanalController::class, 'updateAll'])->name('gensemanal.updateAll');

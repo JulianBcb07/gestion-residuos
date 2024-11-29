@@ -23,6 +23,31 @@ class GraficasSemanalController extends Controller
         return view('graficassemanal.index', compact('top3Generado'));
     }
 
+    private function applyDataFilters($query, $periodo, $startDate, $endDate)
+    {
+        if ($startDate && $endDate) {
+            $query->whereBetween('fecha', [
+                Carbon::parse($startDate)->format('Y-m-d'),
+                Carbon::parse($endDate)->format('Y-m-d')
+            ]);
+        } else {
+            switch ($periodo) {
+                case '7_dias':
+                    $query->whereBetween('fecha', [now()->subDays(7), now()]);
+                    break;
+                case '30_dias':
+                    $query->whereBetween('fecha', [now()->subDays(30), now()]);
+                    break;
+                case '90_dias':
+                    $query->whereBetween('fecha', [now()->subDays(90), now()]);
+                    break;
+                default:
+                    // Sin filtro de fecha
+                    break;
+            }
+        }
+    }
+
     // Obtener datos de una grafica especifica usando AJAX
     public function fetchGraphData(Request $request)
     {
@@ -50,10 +75,10 @@ class GraficasSemanalController extends Controller
             case 'all':
                 // Obtener los datos para todas las gráficas
                 $data = [
-                    // 'top3' => $this->getTop3Generado($baseQuery),
-                    'pieChart' => $this->getPorcentajeResiduos($baseQuery),
-                    'barChart' => $this->getGraficoTotalResiduos($baseQuery),
-                    'lineChart' => $this->getGraficoTendenciaResiduos($baseQuery)
+                    'top3' => $this->getTop3Generado($baseQuery->clone()),
+                    'pieChart' => $this->getPorcentajeResiduos($baseQuery->clone()),
+                    'barChart' => $this->getGraficoTotalResiduos($baseQuery->clone()),
+                    'lineChart' => $this->getGraficoTendenciaResiduos($baseQuery->clone())
                 ];
                 break;
             default:
@@ -62,31 +87,6 @@ class GraficasSemanalController extends Controller
         }
 
         return response()->json($data);
-    }
-
-    private function applyDataFilters($query, $periodo, $startDate, $endDate)
-    {
-        if ($startDate && $endDate) {
-            $query->whereBetween('fecha', [
-                Carbon::parse($startDate)->format('Y-m-d'),
-                Carbon::parse($endDate)->format('Y-m-d')
-            ]);
-        } else {
-            switch ($periodo) {
-                case '7_dias':
-                    $query->whereBetween('fecha', [now()->subDays(7), now()]);
-                    break;
-                case '30_dias':
-                    $query->whereBetween('fecha', [now()->subDays(30), now()]);
-                    break;
-                case '90_dias':
-                    $query->whereBetween('fecha', [now()->subDays(90), now()]);
-                    break;
-                default:
-                    // Sin filtro de fecha
-                    break;
-            }
-        }
     }
 
     // Funciones para obtener los datos de cada grafica de generacion de residuos

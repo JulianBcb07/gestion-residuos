@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GenSemanal;
 use App\Models\GenSubproducto;
 use App\Models\Subproducto;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class RegistroSubproductoController extends Controller
 {
@@ -169,7 +171,7 @@ class RegistroSubproductoController extends Controller
             'text' => 'Los datos se han guardado con éxito',
         ]);
 
-        return redirect()->route('gensubproductos.edit', [
+        return redirect()->route('gensubproductos.editAll', [
             'instituto_id' => $instituto_id,
             'inicio' => $inicio->format('Y-m-d'),
             'final' => $final->format('Y-m-d'),
@@ -182,7 +184,40 @@ class RegistroSubproductoController extends Controller
      */
     public function show(Request $request, $instituto_id, $inicio, $final)
     {
-        //
+
+        $inicio = Carbon::parse($inicio);
+        $final = Carbon::parse($final);
+
+        // Verificar si el usuario está autenticado
+        if (Auth::check()) {
+            // Obtener el instituto del usuario autenticado o null si no tiene uno relacionado
+            $instituto = Auth::user()->instituto ?? null;
+        } else {
+            // Redirigir a la página de inicio de sesión si no está autenticado
+            return redirect()->route('login')->with('error', 'Su sesión ha expirado. Por favor, inicie sesión nuevamente.');
+        }
+
+        // Consulta de datos generados
+        $datosGenerados = GenSubproducto::select(
+            'subproductos.id as subproducto_id',
+            'subproductos.nombre as subproducto_nombre',
+            'gen_subproductos.fecha',
+            DB::raw('SUM(gen_subproductos.valor_kg) as total_kg')
+        )
+            ->join('subproductos', 'gen_subproductos.subproducto_id', '=', 'subproductos.id')
+            ->whereBetween('gen_subproductos.fecha', [$inicio, $final])
+            ->groupBy('subproductos.id', 'subproductos.nombre', 'gen_subproductos.fecha')
+            ->orderBy('subproductos.id')
+            ->orderBy('gen_subproductos.fecha')
+            ->get();
+
+        // Agrupar por subproducto
+        $datosAgrupados = $datosGenerados->groupBy('subproducto_nombre');
+
+
+        // dd($datosAgrupados);
+
+        return view('gensubproductos.show', compact('datosAgrupados', 'inicio', 'final', 'instituto'));
     }
 
     /**
@@ -371,5 +406,41 @@ class RegistroSubproductoController extends Controller
     public function destroy(Request $request)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $registros = DB::table('zonas_areas')
+            ->join('gen_semanals', 'zonas_areas.id', '=', 'gen_semanals.zonas_areas_id')
+            ->join('zonas', 'zonas_areas.zona_id', '=', 'zonas.id')
+            ->join('areas', 'zonas_areas.area_id', '=', 'areas.id')
+            ->select(
+                'zonas.id as zona_id',
+                'zonas.nombre as zona',
+                'areas.id as area_id',
+                'areas.nombre as areaAsignada',
+                'gen_semanals.fecha',
+                'gen_semanals.turno',
+                'gen_semanals.valor_kg'
+            )
+            ->where(function ($q) use ($query) {
+                $q->where('zonas.nombre', 'LIKE', "%{$query}%")
+                    ->orWhere('areas.nombre', 'LIKE', "%{$query}%")
+                    ->orWhere('gen_semanals.fecha', 'LIKE', "%{$query}%")
+                    ->orWhere('gen_semanals.turno', 'LIKE', "%{$query}%");
+            })
+            ->orderBy('gen_semanals.fecha', 'ASC')
+            ->paginate(10) // Esto asegura que sea un Paginator
+            ->appends(['query' => $query]); // Mantén el parámetro `query` en la paginación
+
+        if ($request->ajax()) {
+            // Devuelve solo la parte de la tabla si es una solicitud AJAX
+            return view('gensemanal.partials.table', compact('registros'))->render();
+        }
+
+        // Devuelve la vista completa si no es AJAX
+        return view('gensemanal.index', compact('registros'));
     }
 }
