@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\GenSemanal;
 use App\Models\GenSubproducto;
 use App\Models\Subproducto;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -213,7 +214,6 @@ class RegistroSubproductoController extends Controller
 
         // Agrupar por subproducto
         $datosAgrupados = $datosGenerados->groupBy('subproducto_nombre');
-
 
         // dd($datosAgrupados);
 
@@ -442,5 +442,44 @@ class RegistroSubproductoController extends Controller
 
         // Devuelve la vista completa si no es AJAX
         return view('gensemanal.index', compact('registros'));
+    }
+
+    public function GenerarPDF(Request $request, $instituto_id, $inicio, $final)
+    {
+
+        $inicio = Carbon::parse($inicio);
+        $final = Carbon::parse($final);
+
+        // Verificar si el usuario está autenticado
+        if (Auth::check()) {
+            // Obtener el instituto del usuario autenticado o null si no tiene uno relacionado
+            $instituto = Auth::user()->instituto ?? null;
+        } else {
+            // Redirigir a la página de inicio de sesión si no está autenticado
+            return redirect()->route('login')->with('error', 'Su sesión ha expirado. Por favor, inicie sesión nuevamente.');
+        }
+
+        // Consulta de datos generados
+        $datosGenerados = GenSubproducto::select(
+            'subproductos.id as subproducto_id',
+            'subproductos.nombre as subproducto_nombre',
+            'gen_subproductos.fecha',
+            DB::raw('SUM(gen_subproductos.valor_kg) as total_kg')
+        )
+            ->join('subproductos', 'gen_subproductos.subproducto_id', '=', 'subproductos.id')
+            ->whereBetween('gen_subproductos.fecha', [$inicio, $final])
+            ->groupBy('subproductos.id', 'subproductos.nombre', 'gen_subproductos.fecha')
+            ->orderBy('subproductos.id')
+            ->orderBy('gen_subproductos.fecha')
+            ->get();
+
+        // Agrupar por subproducto
+        $datosAgrupados = $datosGenerados->groupBy('subproducto_nombre');
+
+        // $imagePath = public_path('src/images/itsvalogo.png');
+        // $image = "data:image/png;base64," . base64_encode(file_get_contents($imagePath));
+
+        $pdf = Pdf::loadView('gensubproductos.pdf', compact('datosAgrupados', 'inicio', 'final', 'instituto'));
+        return $pdf->stream('reporte_subproductos.pdf');
     }
 }

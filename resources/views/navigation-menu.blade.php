@@ -31,8 +31,8 @@
         ],
         [
             'name' => 'Meta Anual',
-            'url' => route('dashboard'),
-            'active' => false,
+            'url' => route('metaAnual.index'),
+            'active' => request()->routeIs('metaAnual.index'),
         ],
         [
             'name' => 'Acerca de',

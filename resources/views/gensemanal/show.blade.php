@@ -8,7 +8,7 @@
                     <div class="bg-white overflow-hidden shadow rounded-lg border col-span-1">
                         <div class="px-4 py-5 sm:px-6">
                             <h3 class="text-lg leading-6 font-medium text-gray-900">
-                                Datos Generados
+                                Datos Generales
                             </h3>
                             <p class="mt-1 max-w-2xl text-sm text-gray-500">
                                 Resumen de los datos generados en la universidad.
@@ -21,7 +21,15 @@
                                         Fecha
                                     </dt>
                                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-1">
-                                        26/11/2024
+                                        {{ $fecha }}
+                                    </dd>
+                                </div>
+                                <div class="py-3 sm:py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-4">
+                                    <dt class="text-sm font-medium text-gray-500">
+                                        Turno
+                                    </dt>
+                                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-1">
+                                        {{ $turno }}
                                     </dd>
                                 </div>
                                 <div class="py-3 sm:py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-4">
@@ -29,7 +37,10 @@
                                         Total generado de las zonas
                                     </dt>
                                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-1">
-                                        34.55 kg
+                                        @php
+                                            $totalGenerado = $registros->flatten()->sum('valor_kg');
+                                        @endphp
+                                        {{ number_format($totalGenerado, 2) }} kg
                                     </dd>
                                 </div>
                                 <div class="py-3 sm:py-5 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-4">
@@ -37,16 +48,27 @@
                                         Zona con mayor generación
                                     </dt>
                                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-1">
-                                        Zona 2. A, H, C y D
+                                        @php
+                                            $zonaMayor = $registros
+                                                ->map(function ($zona) {
+                                                    return $zona->sum('valor_kg');
+                                                })
+                                                ->sortDesc()
+                                                ->keys()
+                                                ->first();
+                                            $totalZonaMayor = $registros[$zonaMayor]->sum('valor_kg');
+                                        @endphp
+                                        {{ $registros[$zonaMayor]->first()->zona }}
+                                        ({{ number_format($totalZonaMayor, 2) }} kg)
                                     </dd>
                                 </div>
+
                                 <div class="py-3 sm:py-5 sm:gap-4 sm:px-4">
-                                    <dt class="text-sm font-medium text-gray-500">
+                                    <dt class="text-sm font-medium text-gray-500 mb-2">
                                         Instituto
                                     </dt>
                                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0">
-                                        Instituto Tecnologico Superior<br>
-                                        de Valladolid
+                                        {{ $instituto->nombre }}
                                     </dd>
                                 </div>
                                 <div class="p-4">
@@ -54,7 +76,7 @@
                                         Descargar archivo
                                     </dt>
                                     <div class="flex justify-center gap-4">
-                                        <a href="#"
+                                        <a href="{{ route('gensemanal.pdf', ['fecha' => $fechaUrl, 'turno' => $turno])}}" target="_blank"
                                             class="bg-red-500 hover:bg-red-600 text-white p-3 rounded shadow">
                                             <i class="fa-solid fa-file-pdf"></i> En PDF
                                         </a>
@@ -72,7 +94,7 @@
                     <div class="bg-white overflow-hidden shadow rounded-lg border col-span-3">
                         <div class="px-4 py-5 sm:px-6">
                             <h3 class="text-lg leading-6 font-medium text-gray-900">
-                                Datos Generados desglozado
+                                Datos Generados desglosados
                             </h3>
                             <p class="mt-1 max-w-2xl text-sm text-gray-500">
                                 Todos los datos generados de cada zona y area.
@@ -80,105 +102,60 @@
                         </div>
                         <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
                             <div class="p-4">
-                                <div class="overflow-hidden rounded-lg border shadow mb-5">
-                                    <table class="w-full text-sm leading-5 ">
-                                        <thead class="bg-gray-100 ">
-                                            <tr>
-                                                <th class="py-3 px-4 text-center text-base font-semibold text-gray-600"
-                                                    colspan="8">Zona 1. Tal dlfsa</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="border-b border-gray-300">
-                                                <td class="py-3 px-4 text-left font-bold">Fecha</td>
-                                                <td class="py-3 px-4 text-center">Domingo</td>
-                                                <td class="py-3 px-4 text-center">Lunes</td>
-                                                <td class="py-3 px-4 text-center">Martes</td>
-                                                <td class="py-3 px-4 text-center">Miercoles</td>
-                                                <td class="py-3 px-4 text-center">Jueves</td>
-                                                <td class="py-3 px-4 text-center">Viernes</td>
-                                                <td class="py-3 px-4 text-center">Sabado</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-3 px-4 text-left font-bold">Cantidad generada</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="overflow-hidden rounded-lg border shadow mb-5">
-                                    <table class="w-full text-sm leading-5 ">
-                                        <thead class="bg-gray-100 ">
-                                            <tr>
-                                                <th class="py-3 px-4 text-center text-base font-semibold text-gray-600"
-                                                    colspan="8">Zona 2. sadjasld</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="border-b border-gray-300">
-                                                <td class="py-3 px-4 text-left font-bold">Fecha</td>
-                                                <td class="py-3 px-4 text-center">Domingo</td>
-                                                <td class="py-3 px-4 text-center">Lunes</td>
-                                                <td class="py-3 px-4 text-center">Martes</td>
-                                                <td class="py-3 px-4 text-center">Miercoles</td>
-                                                <td class="py-3 px-4 text-center">Jueves</td>
-                                                <td class="py-3 px-4 text-center">Viernes</td>
-                                                <td class="py-3 px-4 text-center">Sabado</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-3 px-4 text-left font-bold">Cantidad generada</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="overflow-hidden rounded-lg border shadow mb-5">
-                                    <table class="w-full text-sm leading-5 ">
-                                        <thead class="bg-gray-100 ">
-                                            <tr>
-                                                <th class="py-3 px-4 text-center text-base font-semibold text-gray-600"
-                                                    colspan="8">Zona 3. jsdajd</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="border-b border-gray-300">
-                                                <td class="py-3 px-4 text-left font-bold">Fecha</td>
-                                                <td class="py-3 px-4 text-center">Domingo</td>
-                                                <td class="py-3 px-4 text-center">Lunes</td>
-                                                <td class="py-3 px-4 text-center">Martes</td>
-                                                <td class="py-3 px-4 text-center">Miercoles</td>
-                                                <td class="py-3 px-4 text-center">Jueves</td>
-                                                <td class="py-3 px-4 text-center">Viernes</td>
-                                                <td class="py-3 px-4 text-center">Sabado</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="py-3 px-4 text-left font-bold">Cantidad generada</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                                <td class="py-3 px-4 text-center">240</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                @foreach ($registros as $zona => $datos)
+                                    <div class="overflow-hidden rounded-lg border shadow mb-5">
+                                        <table class="w-full text-sm leading-5">
+                                            <thead class="bg-gray-100">
+                                                <tr>
+                                                    <th class="py-3 px-4 text-center text-base font-semibold text-gray-600"
+                                                        colspan="8">{{ $datos->first()->zona }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Fila de Áreas -->
+                                                @php
+                                                    $areaChunks = array_chunk(
+                                                        $datos->pluck('areaAsignada')->toArray(),
+                                                        6,
+                                                    );
+                                                    $cantidadChunks = array_chunk(
+                                                        $datos->pluck('valor_kg')->toArray(),
+                                                        6,
+                                                    );
+                                                @endphp
+                                                @foreach ($areaChunks as $index => $areaChunk)
+                                                    <tr class="border-t border-gray-300">
+                                                        <td class="py-3 px-4 text-left font-bold">Área:</td>
+                                                        @foreach ($areaChunk as $area)
+                                                            <td class="py-3 px-4 text-left">{{ $area }}</td>
+                                                        @endforeach
+                                                        <!-- Rellenar celdas vacías si la fila tiene menos de 6 columnas -->
+                                                        @foreach (array_pad($areaChunk, 6, '') as $area)
+                                                            @if ($area === '')
+                                                                <td class="py-3 px-4 text-left"></td>
+                                                            @endif
+                                                        @endforeach
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="py-3 px-4 text-left font-bold">Cantidad Generada:
+                                                        </td>
+                                                        @foreach ($cantidadChunks[$index] as $cantidad)
+                                                            <td class="py-3 px-4 text-left">{{ $cantidad }}</td>
+                                                        @endforeach
+                                                        <!-- Rellenar celdas vacías si la fila tiene menos de 6 columnas -->
+                                                        @foreach (array_pad($cantidadChunks[$index], 6, '') as $cantidad)
+                                                            @if ($cantidad === '')
+                                                                <td class="py-3 px-4 text-left"></td>
+                                                            @endif
+                                                        @endforeach
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                @endforeach
                             </div>
+
                         </div>
                     </div>
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\GraficasController;
 use App\Http\Controllers\GraficasSemanalController;
 use App\Http\Controllers\GraficasSubproductosController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\MetaAnualController;
 use App\Http\Controllers\RegistroSemanalController;
 use App\Http\Controllers\RegistroSubproductoController;
 use Illuminate\Support\Facades\Route;
@@ -15,7 +16,9 @@ Route::get('/', function () {
 Route::get('/gensemanal/search', [RegistroSemanalController::class, 'search'])->name('gensemanal.search');
 Route::resource('/gensemanal', RegistroSemanalController::class);
 Route::get('/gensemanal/edit/{fecha}/{turno}', [RegistroSemanalController::class, 'edit'])->name('gensemanal.editAll');
+Route::get('/gensemanal/show/{fecha}/{turno}', [RegistroSemanalController::class, 'show'])->name('gensemanal.showAll');
 Route::put('/gensemanal', [RegistroSemanalController::class, 'updateAll'])->name('gensemanal.updateAll');
+Route::get('/gensemanal/pdf/{fecha}/{turno}', [RegistroSemanalController::class, 'GenerarPDF'])->name('gensemanal.pdf');
 
 // Rutas para obtener datos de cada gráfica de manera dinámica de los residuos semanales
 Route::get('/graficassemanal', [GraficasSemanalController::class, 'index'])->name('graficassemanal.index');
@@ -29,6 +32,7 @@ Route::resource('/gensubproductos', RegistroSubproductoController::class);
 Route::get('/gensubproductos/edit/{instituto_id}/{inicio}/{final}', [RegistroSubproductoController::class, 'edit'])->name('gensubproductos.editAll');
 Route::get('/gensubproductos/show/{instituto_id}/{inicio}/{final}', [RegistroSubproductoController::class, 'show'])->name('gensubproductos.showAll');
 Route::put('/gensubproductos', [RegistroSubproductoController::class, 'updateMultiple'])->name('gensubproductos.updateMultiple');
+Route::get('/gensubproductos/pdf/{instituto_id}/{inicio}/{final}', [RegistroSubproductoController::class, 'GenerarPDF'])->name('gensubproductos.pdf');
 
 // Ruta para obtener datos de cada gráfica de manera dinámica
 Route::get('/graficassubproductos', [GraficasSubproductosController::class, 'index'])->name('graficassubproductos.index');
@@ -40,6 +44,8 @@ Route::get('/graficassubproductos/data/linechart', [GraficasSubproductosControll
 
 Route::get('/evidenciasGenerado/search', [ImageController::class, 'search'])->name('evidenciasGenerado.search');
 Route::resource('/evidenciasGenerado',  ImageController::class);
+
+Route::get('/metaAnual', [MetaAnualController::class, 'index'])->name('metaAnual.index');
 
 
 

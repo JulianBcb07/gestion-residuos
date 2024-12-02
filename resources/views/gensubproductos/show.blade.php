@@ -60,7 +60,7 @@
                                         Instituto
                                     </dt>
                                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0">
-                                        {{ $instituto->nombre }}                                        
+                                        {{ $instituto->nombre }}
                                     </dd>
                                 </div>
                                 <div class="p-4">
@@ -68,7 +68,8 @@
                                         Descargar archivo
                                     </dt>
                                     <div class="flex justify-center gap-4">
-                                        <a href="#"
+                                        <a href="{{ route('gensubproductos.pdf', ['instituto_id' => $instituto->nombre, 'inicio' => $inicio->format('Y-m-d'), 'final' => $final->format('Y-m-d')]) }}"
+                                            target="_blank"
                                             class="bg-red-500 hover:bg-red-600 text-white p-3 rounded shadow">
                                             <i class="fa-solid fa-file-pdf"></i> En PDF
                                         </a>
@@ -117,7 +118,15 @@
                                                     <tr class="border-t border-gray-300">
                                                         <td class="py-3 px-4 text-left font-bold">Fecha:</td>
                                                         @foreach ($fechaChunk as $fecha)
-                                                            <td class="py-3 px-4 text-left">{{ \Carbon\Carbon::parse($fecha)->format('d/m/Y') }}</td>
+                                                            <td class="py-3 px-4 text-left">
+                                                                {{ \Carbon\Carbon::parse($fecha)->format('d/m/Y') }}
+                                                            </td>
+                                                        @endforeach
+                                                        <!-- Rellenar celdas vacías si la fila tiene menos de 6 columnas -->
+                                                        @foreach (array_pad($fechaChunk, 6, '') as $fecha)
+                                                            @if ($fecha === '')
+                                                                <td class="py-3 px-4 text-left"></td>
+                                                            @endif
                                                         @endforeach
                                                     </tr>
                                                     <tr>
@@ -125,6 +134,12 @@
                                                         </td>
                                                         @foreach ($cantidadChunks[$index] as $cantidad)
                                                             <td class="py-3 px-4 text-left">{{ $cantidad }}</td>
+                                                        @endforeach
+                                                        <!-- Rellenar celdas vacías si la fila tiene menos de 6 columnas -->
+                                                        @foreach (array_pad($cantidadChunks[$index], 6, '') as $cantidad)
+                                                            @if ($cantidad === '')
+                                                                <td class="py-3 px-4 text-left"></td>
+                                                            @endif
                                                         @endforeach
                                                     </tr>
                                                 @endforeach

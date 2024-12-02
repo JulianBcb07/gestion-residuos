@@ -28,7 +28,7 @@
                         href="{{ route('gensemanal.editAll', ['fecha' => $registro->fecha, 'turno' => $registro->turno]) }}">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
-                    <a href="{{ route('gensemanal.show', $registro)}} ">
+                    <a href="{{ route('gensemanal.showAll', ['fecha' => $registro->fecha, 'turno' => $registro->turno])}}">
                         <i class="fa-solid fa-eye"></i>
                     </a>
                 </td>
