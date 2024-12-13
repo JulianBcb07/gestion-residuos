@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\GenSemanal;
 use App\Models\Zona;
 use App\Models\ZonasAreas;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -137,9 +138,52 @@ class RegistroSemanalController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(GenSemanal $genSemanal)
+    public function show(Request $request, $fecha, $turno)
     {
-        //
+
+        // si el usuario pasa mucho tiempo inactivo y expira la sesion, para evitar errores lo manda al login
+        if (!auth()->check()) {
+            return redirect()->route('login')->withErrors(['msg' => 'Su sesión ha expirado. Por favor, inicie sesión nuevamente.']);
+        }
+
+        // Obtener los datos del instituto que el usuario tiene relacionado por autenticacion
+        $instituto = auth()->user()->instituto;
+
+        // Verificamos si el usuario autenticado ya cuenta con un instituto asociado
+        if (!auth()->user()->instituto_id) {
+            return redirect()->back()->withErrors(['msg' => 'Para guardar una evidencia necesita tener una universidad asociada.']);
+        }
+
+        $registros = ZonasAreas::select(
+            'zonas.id as zona_id',
+            'zonas.nombre as zona',
+            'areas.id as area_id',
+            'areas.nombre as areaAsignada',
+            'gen_semanals.fecha',
+            'gen_semanals.turno',
+            'gen_semanals.valor_kg'
+        )
+            ->join('gen_semanals', function ($join) use ($fecha, $turno) {
+                $join->on('zonas_areas.id', '=', 'gen_semanals.zonas_areas_id')
+                    ->where('gen_semanals.fecha', '=', $fecha)
+                    ->where('gen_semanals.turno', '=', $turno);
+            })
+            ->join('zonas', 'zonas_areas.zona_id', '=', 'zonas.id')
+            ->join('areas', 'zonas_areas.area_id', '=', 'areas.id')
+            ->get()
+            ->groupBy('zona_id');
+
+
+        $registroValido = $registros->flatMap(fn($areas) => $areas)->first();
+        $fecha = $registroValido?->fecha ? Carbon::parse($registroValido->fecha)->format('d/m/Y') : Carbon::parse($fecha)->format('d/m/Y');
+        $turno = $registroValido?->turno ?? $turno;
+
+        // Convertir la fecha al formato m-d-Y para la URL 
+        $fechaUrl = Carbon::createFromFormat('d/m/Y', $fecha)->format('Y-m-d');
+
+        // dd($registros, $fecha, $turno);
+
+        return view('gensemanal.show', compact('instituto', 'registros', 'fecha', 'turno', 'fechaUrl'));
     }
 
     /**
@@ -160,7 +204,7 @@ class RegistroSemanalController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Para guardar una evidencia necesita tener una universidad asociada.']);
         }
 
-        // Mostrar registros de una fecha especifica tomando en cuenta que exieten mas zonas y areas para que el usuario pueda agregar datos si asi lo requiere
+        // Mostrar registros de una fecha especifica tomando en cuenta que existen mas zonas y areas para que el usuario pueda agregar datos si asi lo requiere
         $registros = ZonasAreas::select(
             'zonas.id as zona_id',
             'zonas.nombre as zona',
@@ -266,5 +310,49 @@ class RegistroSemanalController extends Controller
     public function destroy(GenSemanal $genSemanal)
     {
         //
+    }
+
+    public function GenerarPDF(Request $request, $fecha, $turno)
+    {
+
+        // si el usuario pasa mucho tiempo inactivo y expira la sesion, para evitar errores lo manda al login
+        if (!auth()->check()) {
+            return redirect()->route('login')->withErrors(['msg' => 'Su sesión ha expirado. Por favor, inicie sesión nuevamente.']);
+        }
+
+        // Obtener los datos del instituto que el usuario tiene relacionado por autenticacion
+        $instituto = auth()->user()->instituto;
+
+        // Verificamos si el usuario autenticado ya cuenta con un instituto asociado
+        if (!auth()->user()->instituto_id) {
+            return redirect()->back()->withErrors(['msg' => 'Para guardar una evidencia necesita tener una universidad asociada.']);
+        }
+
+        $registros = ZonasAreas::select(
+            'zonas.id as zona_id',
+            'zonas.nombre as zona',
+            'areas.id as area_id',
+            'areas.nombre as areaAsignada',
+            'gen_semanals.fecha',
+            'gen_semanals.turno',
+            'gen_semanals.valor_kg'
+        )
+            ->join('gen_semanals', function ($join) use ($fecha, $turno) {
+                $join->on('zonas_areas.id', '=', 'gen_semanals.zonas_areas_id')
+                    ->where('gen_semanals.fecha', '=', $fecha)
+                    ->where('gen_semanals.turno', '=', $turno);
+            })
+            ->join('zonas', 'zonas_areas.zona_id', '=', 'zonas.id')
+            ->join('areas', 'zonas_areas.area_id', '=', 'areas.id')
+            ->get()
+            ->groupBy('zona_id');
+
+
+        $registroValido = $registros->flatMap(fn($areas) => $areas)->first();
+        $fecha = $registroValido?->fecha ? Carbon::parse($registroValido->fecha)->format('d/m/Y') : Carbon::parse($fecha)->format('d/m/Y');
+        $turno = $registroValido?->turno ?? $turno;
+
+        $pdf = Pdf::loadView('gensemanal.pdf', compact('registros', 'fecha', 'turno', 'instituto'));
+        return $pdf->stream('reporte_gensemanal.pdf');
     }
 }

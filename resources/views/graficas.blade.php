@@ -73,7 +73,7 @@
                 @else
                     <div class="bg-gray-200 bg-opacity-25 gap-6 lg:gap-8 p-6 lg:p-8">
                         <div class="p-4 text-sm text-blue-500 rounded-lg bg-blue-50" role="alert">
-                            <span class="font-medium">Alerta!</span> Para continuar necesitas que un administrador te dé
+                            <span class="font-medium">Alerta!</span> Para continuar necesitas que un administrador te de
                             acceso a estos
                             apartados.
                         </div>
