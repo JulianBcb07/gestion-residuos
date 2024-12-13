@@ -15,3 +15,8 @@ import './graficassemanal/graficoPorcentaje';
 import './graficassemanal/graficoBarras';
 import './graficassemanal/graficoTendencia';
 
+// Archivos de predicciones de zonas
+import './graficasPrediccionesZonas/graficaPSemanal'
+import './graficasPrediccionesZonas/graficaPMensual'
+import './graficasPrediccionesZonas/graficaPAnual'
+

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RegistroSemanalExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\GenSemanal;
 use App\Models\Zona;
 use App\Models\ZonasAreas;
@@ -354,5 +356,49 @@ class RegistroSemanalController extends Controller
 
         $pdf = Pdf::loadView('gensemanal.pdf', compact('registros', 'fecha', 'turno', 'instituto'));
         return $pdf->stream('reporte_gensemanal.pdf');
+    }
+
+    public function GenerarExcel(Request $request, $fecha, $turno)
+    {
+
+        // si el usuario pasa mucho tiempo inactivo y expira la sesion, para evitar errores lo manda al login
+        if (!auth()->check()) {
+            return redirect()->route('login')->withErrors(['msg' => 'Su sesión ha expirado. Por favor, inicie sesión nuevamente.']);
+        }
+
+        // Obtener los datos del instituto que el usuario tiene relacionado por autenticacion
+        $instituto = auth()->user()->instituto;
+
+        // Verificamos si el usuario autenticado ya cuenta con un instituto asociado
+        if (!auth()->user()->instituto_id) {
+            return redirect()->back()->withErrors(['msg' => 'Para guardar una evidencia necesita tener una universidad asociada.']);
+        }
+
+        $registros = ZonasAreas::select(
+            'zonas.id as zona_id',
+            'zonas.nombre as zona',
+            'areas.id as area_id',
+            'areas.nombre as areaAsignada',
+            'gen_semanals.fecha',
+            'gen_semanals.turno',
+            'gen_semanals.valor_kg'
+        )
+            ->join('gen_semanals', function ($join) use ($fecha, $turno) {
+                $join->on('zonas_areas.id', '=', 'gen_semanals.zonas_areas_id')
+                    ->where('gen_semanals.fecha', '=', $fecha)
+                    ->where('gen_semanals.turno', '=', $turno);
+            })
+            ->join('zonas', 'zonas_areas.zona_id', '=', 'zonas.id')
+            ->join('areas', 'zonas_areas.area_id', '=', 'areas.id')
+            ->orderBy('zonas.id') // Ordenar por zona primero
+            ->get();
+
+        // dd($registros);
+
+        $registroValido = $registros->flatMap(fn($areas) => $areas)->first();
+        $fecha = $registroValido?->fecha ? Carbon::parse($registroValido->fecha)->format('d/m/Y') : Carbon::parse($fecha)->format('d/m/Y');
+        $turno = $registroValido?->turno ?? $turno;
+
+        return Excel::download(new RegistroSemanalExport($registros, $fecha), 'registro-semanal.xlsx');
     }
 }

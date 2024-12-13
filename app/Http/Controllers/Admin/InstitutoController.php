@@ -57,7 +57,7 @@ class InstitutoController extends Controller
 
         // Para subir una imagen
         if ($request->file('image')) {
-            $file_name = $request->nombre . '.' . $request->file('image')->getClientOriginalExtension();
+            $file_name = time() . '_' . uniqid() . '.' . $request->file('image')->getClientOriginalExtension();
             $data['logo'] = $request->file('image')->storeAs('university-icons', $file_name);
         }
         //posts/image.jpg
@@ -131,7 +131,7 @@ class InstitutoController extends Controller
                 Storage::delete($instituto->image_path);
             }
 
-            $file_name = $request->slug . '.' . $request->file('image')->getClientOriginalExtension();
+            $file_name = time() . '_' . uniqid() . '.' . $request->file('image')->getClientOriginalExtension();
             // $data['image_path'] = Storage::putFileAs('posts', $request->image, $file_name);
             $data['logo'] = $request->file('image')->storeAs('university-icons', $file_name);
         }

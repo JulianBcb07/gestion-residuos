@@ -73,7 +73,7 @@
                                             class="bg-red-500 hover:bg-red-600 text-white p-3 rounded shadow">
                                             <i class="fa-solid fa-file-pdf"></i> En PDF
                                         </a>
-                                        <a href="#"
+                                        <a href="{{ route('gensubproductos.excel', ['instituto_id' => $instituto->nombre, 'inicio' => $inicio->format('Y-m-d'), 'final' => $final->format('Y-m-d')]) }}"
                                             class="bg-green-500 hover:bg-green-600 text-white p-3 rounded shadow">
                                             <i class="fa-solid fa-file-excel"></i> En Excel
                                         </a>

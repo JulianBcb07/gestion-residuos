@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RegistroSubproductosExport;
 use App\Models\GenSemanal;
 use App\Models\GenSubproducto;
 use App\Models\Subproducto;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RegistroSubproductoController extends Controller
 {
@@ -481,5 +483,43 @@ class RegistroSubproductoController extends Controller
 
         $pdf = Pdf::loadView('gensubproductos.pdf', compact('datosAgrupados', 'inicio', 'final', 'instituto'));
         return $pdf->stream('reporte_subproductos.pdf');
+    }
+
+
+    public function GenerarExcel(Request $request, $instituto_id, $inicio, $final)
+    {
+
+        $inicio = Carbon::parse($inicio);
+        $final = Carbon::parse($final);
+
+        // Verificar si el usuario está autenticado
+        if (Auth::check()) {
+            // Obtener el instituto del usuario autenticado o null si no tiene uno relacionado
+            $instituto = Auth::user()->instituto ?? null;
+        } else {
+            // Redirigir a la página de inicio de sesión si no está autenticado
+            return redirect()->route('login')->with('error', 'Su sesión ha expirado. Por favor, inicie sesión nuevamente.');
+        }
+
+        // Consulta de datos generados
+        $datosGenerados = GenSubproducto::select(
+            'subproductos.id as subproducto_id',
+            'subproductos.nombre as subproducto_nombre',
+            'gen_subproductos.fecha',
+            DB::raw('SUM(gen_subproductos.valor_kg) as total_kg')
+        )
+            ->join('subproductos', 'gen_subproductos.subproducto_id', '=', 'subproductos.id')
+            ->whereBetween('gen_subproductos.fecha', [$inicio, $final])
+            ->groupBy('subproductos.id', 'subproductos.nombre', 'gen_subproductos.fecha')
+            ->orderBy('subproductos.id')
+            ->orderBy('gen_subproductos.fecha')
+            ->get();
+
+        // dd($datosGenerados);
+
+        // $imagePath = public_path('src/images/itsvalogo.png');
+        // $image = "data:image/png;base64," . base64_encode(file_get_contents($imagePath));
+
+        return Excel::download(new RegistroSubproductosExport($datosGenerados, $inicio, $final), 'registro-subproductos.xlsx');
     }
 }

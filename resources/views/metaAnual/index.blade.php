@@ -1,126 +1,123 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
                 {{ __('Mi Meta Anual') }}
             </h2>
+        </div>
     </x-slot>
 
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-5 mb-10">
-        <div class="p-6 lg:p-5 bg-gray-200 border-b border-gray-200 rounded-lg">
-            <!-- component -->
-            <div class="flex items-center justify-center">
-                <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-                    <!-- 1 card -->
-                    <div class="relative bg-white py-6 px-6 rounded-3xl w-80 my-4 shadow-xl">
-                        <div
-                            class=" text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-green-500 left-4 -top-6">
-                            <!-- svg  -->
-                            <i class="fa-solid fa-chart-line text-3xl"></i>
-                        </div>
-                        <div class="mt-8">
-                            <p class="text-xl font-semibold my-2">Meta Actual</p>
-                            <div class="flex items-center space-x-2 text-gray-500 text-sm">
-                                <i class="fa-solid fa-arrow-right text-3xl"></i>
-                                <p class="text-5xl">3.5</p>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="p-6 lg:p-8">
+                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        <!-- Meta Actual Card -->
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="p-5">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-lg font-medium text-gray-900">Meta Actual</h3>
+                                    <span class="inline-flex items-center justify-center p-3 bg-green-500 rounded-full">
+                                        <i class="fas fa-chart-line text-xl text-white"></i>
+                                    </span>
+                                </div>
+                                <div class="mt-4">
+                                    <p class="text-4xl font-bold text-gray-900">3.5</p>
+                                    <p class="mt-1 text-sm text-gray-500">Toneladas</p>
+                                </div>
                             </div>
-                            <div class="border-t-2"></div>
+                        </div>
+
+                        <!-- Promedio Per Cápita Card -->
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="p-5">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-lg font-medium text-gray-900">Promedio Per Cápita</h3>
+                                    <span class="inline-flex items-center justify-center p-3 bg-blue-500 rounded-full">
+                                        <i class="fas fa-chart-column text-xl text-white"></i>
+                                    </span>
+                                </div>
+                                <div class="mt-4">
+                                    <p class="text-4xl font-bold text-gray-900">0.1256</p>
+                                    <p class="mt-1 text-sm text-gray-500">Kg por persona</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total de personas Card -->
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="p-5">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-lg font-medium text-gray-900">Total de personas</h3>
+                                    <span class="inline-flex items-center justify-center p-3 bg-yellow-500 rounded-full">
+                                        <i class="fas fa-people-group text-xl text-white"></i>
+                                    </span>
+                                </div>
+                                <div class="mt-4">
+                                    <p class="text-4xl font-bold text-gray-900">1,460</p>
+                                    <p class="mt-1 text-sm text-gray-500">Personas</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- 3 card -->
-                    <div class="relative bg-white py-6 px-6 rounded-3xl w-80 my-4 shadow-xl">
-                        <div
-                            class=" text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-blue-500 left-4 -top-6">
-                            <i class="fa-solid fa-chart-column text-3xl"></i>
-                        </div>
-                        <div class="mt-8">
-                            <p class="text-xl font-semibold my-2">Promedio Per Cápita</p>
-                            <div class="flex items-center space-x-2 text-gray-500 text-sm">
-                                <i class="fa-solid fa-arrow-right text-3xl"></i>
-                                <p class="text-5xl">0.1256</p>
-                            </div>
-                            <div class="border-t-2 "></div>
-                        </div>
-                    </div>
-
-                    <!-- 4 card -->
-                    <div class="relative bg-white py-6 px-6 rounded-3xl w-80 my-4 shadow-xl">
-                        <div
-                            class=" text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-yellow-500 left-4 -top-6">
-                            <i class="fa-solid fa-people-group text-3xl"></i>
-                        </div>
-                        <div class="mt-8">
-                            <p class="text-xl font-semibold my-2">Total de personas</p>
-                            <div class="flex items-center space-x-2 text-gray-500 text-sm">
-                                <i class="fa-solid fa-arrow-right text-3xl"></i>
-                                <p class="text-5xl">1460</p>
-                            </div>
-                            <div class="border-t-2 "></div>
+                    <div class="mt-8">
+                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Generación Superior al promedio</h2>
+                        <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                            <table class="w-full text-sm text-left text-gray-500">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="py-3 px-6">Id</th>
+                                        <th scope="col" class="py-3 px-6">Fecha</th>
+                                        <th scope="col" class="py-3 px-6">Zona</th>
+                                        <th scope="col" class="py-3 px-6">Turno</th>
+                                        <th scope="col" class="py-3 px-6">Total generado</th>
+                                        <th scope="col" class="py-3 px-6">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                        <td class="py-4 px-6">1</td>
+                                        <td class="py-4 px-6">26/11/2024</td>
+                                        <td class="py-4 px-6">Zona 1. A, B, C</td>
+                                        <td class="py-4 px-6">Matutino</td>
+                                        <td class="py-4 px-6">45.4 kg</td>
+                                        <td class="py-4 px-6">
+                                            <a href="#" class="text-blue-600 hover:underline">
+                                                <i class="fas fa-eye"></i> Ver
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                        <td class="py-4 px-6">2</td>
+                                        <td class="py-4 px-6">28/11/2024</td>
+                                        <td class="py-4 px-6">Zona 3. C, D, F</td>
+                                        <td class="py-4 px-6">Matutino</td>
+                                        <td class="py-4 px-6">54.9 kg</td>
+                                        <td class="py-4 px-6">
+                                            <a href="#" class="text-blue-600 hover:underline">
+                                                <i class="fas fa-eye"></i> Ver
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr class="bg-white hover:bg-gray-50">
+                                        <td class="py-4 px-6">3</td>
+                                        <td class="py-4 px-6">28/11/2024</td>
+                                        <td class="py-4 px-6">Zona 1. A, B, C</td>
+                                        <td class="py-4 px-6">Matutino</td>
+                                        <td class="py-4 px-6">32.4 kg</td>
+                                        <td class="py-4 px-6">
+                                            <a href="#" class="text-blue-600 hover:underline">
+                                                <i class="fas fa-eye"></i> Ver
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden p-2">
-                <div
-                    class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
-                    <h1 class="font-bold">Generacion Superior al promedio</h1>
-                </div>
-                <table class="w-full text-sm text-left text-gray-700 dark:text-gray-400">
-                    <thead
-                        class="text-xs text-center text-gray-800 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="px-4 py-3">Id</th>
-                            <th scope="col" class="px-4 py-3">Fecha</th>
-                            <th scope="col" class="px-4 py-3">Zona</th>
-                            <th scope="col" class="px-4 py-3">Turno</th>
-                            <th scope="col" class="px-4 py-3">Total generado</th>
-                            <th scope="col" class="px-4 py-3">
-                                Acciones
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr>
-                            <th class="px-4 py-3">1</th>
-                            <td class="px-4 py-3">26/11/2024</td>
-                            <td class="px-4 py-3">Zona 1. A, B, C</td>
-                            <td class="px-4 py-3">Matutino</td>
-                            <td class="px-4 py-3">45.4 kg</td>
-                            <td class="px-4 py-3">
-                                <a href="">
-                                    <i class="fa-solid fa-eye"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="px-4 py-3">1</th>
-                            <td class="px-4 py-3">28/11/2024</td>
-                            <td class="px-4 py-3">Zona 3. C, D, F</td>
-                            <td class="px-4 py-3">Matutino</td>
-                            <td class="px-4 py-3">54.9 kg</td>
-                            <td class="px-4 py-3">
-                                <a href="">
-                                    <i class="fa-solid fa-eye"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="px-4 py-3">1</th>
-                            <td class="px-4 py-3">28/11/2024</td>
-                            <td class="px-4 py-3">Zona 1. A, B, C</td>
-                            <td class="px-4 py-3">Matutino</td>
-                            <td class="px-4 py-3">32.4 kg</td>
-                            <td class="px-4 py-3">
-                                <a href="">
-                                    <i class="fa-solid fa-eye"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
-
 </x-app-layout>

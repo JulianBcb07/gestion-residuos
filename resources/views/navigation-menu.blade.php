@@ -21,8 +21,8 @@
         ],
         [
             'name' => 'Predicciones',
-            'url' => route('dashboard'),
-            'active' => false,
+            'url' => route('prediccionesZonas.index'),
+            'active' => request()->routeIs('prediccionesZonas.index'),
         ],
         [
             'name' => 'Evidencias de valorización',
@@ -36,8 +36,8 @@
         ],
         [
             'name' => 'Acerca de',
-            'url' => route('dashboard'),
-            'active' => false,
+            'url' => route('acerca-de'),
+            'active' => request()->routeIs('acerca-de'),
         ],
     ];
 @endphp

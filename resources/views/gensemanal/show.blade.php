@@ -80,7 +80,7 @@
                                             class="bg-red-500 hover:bg-red-600 text-white p-3 rounded shadow">
                                             <i class="fa-solid fa-file-pdf"></i> En PDF
                                         </a>
-                                        <a href="#"
+                                        <a href="{{ route('gensemanal.excel', ['fecha' => $fechaUrl, 'turno' => $turno])}}"
                                             class="bg-green-500 hover:bg-green-600 text-white p-3 rounded shadow">
                                             <i class="fa-solid fa-file-excel"></i> En Excel
                                         </a>
@@ -100,7 +100,7 @@
                                 Todos los datos generados de cada zona y area.
                             </p>
                         </div>
-                        <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+                        <div class="border-t border-gray-200 px-4 py-5 sm:p-0 max-h-[500px] overflow-y-auto">
                             <div class="p-4">
                                 @foreach ($registros as $zona => $datos)
                                     <div class="overflow-hidden rounded-lg border shadow mb-5">

@@ -5,6 +5,7 @@ use App\Http\Controllers\GraficasSemanalController;
 use App\Http\Controllers\GraficasSubproductosController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MetaAnualController;
+use App\Http\Controllers\PrediccionesZonasController;
 use App\Http\Controllers\RegistroSemanalController;
 use App\Http\Controllers\RegistroSubproductoController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,7 @@ Route::get('/gensemanal/edit/{fecha}/{turno}', [RegistroSemanalController::class
 Route::get('/gensemanal/show/{fecha}/{turno}', [RegistroSemanalController::class, 'show'])->name('gensemanal.showAll');
 Route::put('/gensemanal', [RegistroSemanalController::class, 'updateAll'])->name('gensemanal.updateAll');
 Route::get('/gensemanal/pdf/{fecha}/{turno}', [RegistroSemanalController::class, 'GenerarPDF'])->name('gensemanal.pdf');
+Route::get('/gensemanal/excel/{fecha}/{turno}', [RegistroSemanalController::class, 'GenerarExcel'])->name('gensemanal.excel');
 
 // Rutas para obtener datos de cada gráfica de manera dinámica de los residuos semanales
 Route::get('/graficassemanal', [GraficasSemanalController::class, 'index'])->name('graficassemanal.index');
@@ -33,6 +35,7 @@ Route::get('/gensubproductos/edit/{instituto_id}/{inicio}/{final}', [RegistroSub
 Route::get('/gensubproductos/show/{instituto_id}/{inicio}/{final}', [RegistroSubproductoController::class, 'show'])->name('gensubproductos.showAll');
 Route::put('/gensubproductos', [RegistroSubproductoController::class, 'updateMultiple'])->name('gensubproductos.updateMultiple');
 Route::get('/gensubproductos/pdf/{instituto_id}/{inicio}/{final}', [RegistroSubproductoController::class, 'GenerarPDF'])->name('gensubproductos.pdf');
+Route::get('/gensubproductos/excel/{instituto_id}/{inicio}/{final}', [RegistroSubproductoController::class, 'GenerarExcel'])->name('gensubproductos.excel');
 
 // Ruta para obtener datos de cada gráfica de manera dinámica
 Route::get('/graficassubproductos', [GraficasSubproductosController::class, 'index'])->name('graficassubproductos.index');
@@ -47,6 +50,8 @@ Route::resource('/evidenciasGenerado',  ImageController::class);
 
 Route::get('/metaAnual', [MetaAnualController::class, 'index'])->name('metaAnual.index');
 
+Route::resource('/prediccionesZonas', PrediccionesZonasController::class);
+
 
 
 Route::middleware([
@@ -60,4 +65,7 @@ Route::middleware([
     Route::get('/graficas', function () {
         return view('graficas');
     })->name('graficas');
+    Route::get('/acerca-de', function () {
+        return view('acerca-de');
+    })->name('acerca-de');
 });
