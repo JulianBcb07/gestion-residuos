@@ -7,11 +7,11 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                     <h3 class="text-lg font-semibold text-gray-700 mb-2">Total Residuos 2024</h3>
-                    <p class="text-3xl font-bold text-blue-600">349 kg</p>
+                    <p class="text-3xl font-bold text-blue-600">256 kg</p>
                 </div>
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                     <h3 class="text-lg font-semibold text-gray-700 mb-2">Crecimiento Anual</h3>
-                    <p class="text-3xl font-bold text-green-600">+5.4%</p>
+                    <p class="text-3xl font-bold text-green-600">+0.3%</p>
                 </div>
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                     <h3 class="text-lg font-semibold text-gray-700 mb-2">Zona con más Generación</h3>
@@ -42,8 +42,6 @@
                 <div class="p-6">
                     <h2 class="text-xl font-semibold text-gray-900 mb-4">Gráfico de Predicciones</h2>
                     <div id="semanal-chart" class="w-full h-96 mb-8"></div>
-                    <div id="mensual-chart" class="w-full h-96 mb-8" style="display: none;"></div>
-                    <div id="anual-chart" class="w-full h-96 mb-8" style="display: none;"></div>
                 </div>
             </div>
 

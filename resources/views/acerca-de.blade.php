@@ -110,7 +110,7 @@
                         facilitando así el uso adecuado de la aplicación."
                     </p>
                     <div class="flex justify-center">
-                        <img src="{{ asset('src/images/croquisTECNM.jpg') }}" alt="Campus sostenible del TecNM"
+                        <img src="{{ asset('src/images/croquisTecNM.jpg') }}" alt="Campus sostenible del TecNM"
                             class="rounded-lg max-w-full h-auto" width="600" height="300">
                     </div>
                 </div>
