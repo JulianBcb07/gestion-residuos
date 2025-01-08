@@ -53,6 +53,20 @@
             </div>
 
             <div class="mb-4">
+                <x-label class="mb-1">
+                    Universidad perteneciente
+                </x-label>
+
+                <x-select class="w-full" name="instituto_id">
+                    @foreach ($institutos as $instituto)
+                        <option @selected(old('instituto_id', $user->instituto_id)==$instituto->id) value="{{ $instituto->id }}">
+                            {{ $instituto->nombre }}
+                        </option>
+                    @endforeach
+                </x-select>
+            </div>
+
+            <div class="mb-4">
                 <ul>
                     @foreach ($roles as $role)
                     <li>

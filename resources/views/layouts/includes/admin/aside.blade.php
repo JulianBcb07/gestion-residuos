@@ -21,6 +21,7 @@
                 'url' => route('admin.subproductos.index'),
                 'active' => request()->routeIs('admin.subproductos.*'),
                 'icon' => 'fa-solid fa-bottle-water',
+                'can' => ['Acceso a Subproductos']
             ], [
                 'name' => 'Roles',
                 'url' => route('admin.roles.index'),

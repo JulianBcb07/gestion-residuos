@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Institutos;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -50,8 +51,9 @@ class UserController extends Controller
     {
         // Llamamos a todos los roles que tenemos en el modelo rol y luego lo pasamos a la vista edit
         $roles = Role::all();
+        $institutos = Institutos::all();
 
-        return view('admin.users.edit', compact('user', 'roles'));
+        return view('admin.users.edit', compact('user', 'roles', 'institutos'));
     }
 
     /**
@@ -64,14 +66,18 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => "required|string|email|max:255|unique:users,email,{$user->id}",
             'password' => 'nullable|string|min:8|confirmed',
+            'instituto_id' => 'required|exists:institutos,id',
         ]);
 
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->instituto_id = $request->instituto_id;
 
         if ($user->password) {
             $user->password = bcrypt($request->password);
         }
+
+        $user->save();
 
         // Para asignar los roles, accedemos a la relacion y se sincroniza para guardar los roles al usuario
         $user->roles()->sync($request->roles);
@@ -81,6 +87,8 @@ class UserController extends Controller
             'title' => 'Hecho!',
             'text' => 'El usuario se ha actualizado correctamente!'
         ]);
+
+        // dd($user);
 
         return redirect()->route('admin.users.edit', $user);
     }

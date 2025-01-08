@@ -18,21 +18,25 @@
             'name' => 'Graficas',
             'url' => route('graficas'),
             'active' => request()->routeIs('graficas'),
+            'can' => ['Acceso a Graficas'],
         ],
         [
             'name' => 'Predicciones',
             'url' => route('prediccionesZonas.index'),
             'active' => request()->routeIs('prediccionesZonas.index'),
+            'can' => ['Acceso a Predicciones'],
         ],
         [
             'name' => 'Evidencias de valorización',
             'url' => route('evidenciasGenerado.index'),
             'active' => request()->routeIs('evidenciasGenerado.index'),
+            'can' => ['Acceso a Evidencias de Generación'],
         ],
         [
             'name' => 'Meta Anual',
             'url' => route('metaAnual.index'),
             'active' => request()->routeIs('metaAnual.index'),
+            'can' => ['Acceso a Meta Anual'],
         ],
         [
             'name' => 'Acerca de',
@@ -65,9 +69,11 @@
 
                     @auth
                         @foreach ($linkslogin as $link)
-                            <x-nav-link :href="$link['url']" :active="$link['active']">
-                                {{ $link['name'] }}
-                            </x-nav-link>
+                            @canany($link['can'] ?? [null])
+                                <x-nav-link :href="$link['url']" :active="$link['active']">
+                                    {{ $link['name'] }}
+                                </x-nav-link>
+                            @endcanany
                         @endforeach
                     @endauth
                 </div>

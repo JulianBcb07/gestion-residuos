@@ -40,10 +40,32 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // Se asignan con un array muchos permisos al rol nombrado
         $role = Role::create(['name' => 'AdminTecnológico'])
-            ->givePermissionTo(['Acceso a Administración', 'Acceso a Zonas', 'Acceso a Areas', 'Gestion de Usuarios', 'Gestion de MiTecnológico']);
+            ->givePermissionTo([
+                'Acceso a Inicio',
+                'Acceso a Graficas',
+                'Acceso a Predicciones',
+                'Acceso a Evidencias de Generación',
+                'Acceso a Meta Anual',
+                'Acceso a Administración',
+                'Acceso a Zonas',
+                'Acceso a Areas',
+                'Acceso a Subproductos',
+                'Gestion de Usuarios',
+                'Gestion de MiTecnológico'
+            ]);
 
         $role = Role::create(['name' => 'Capturista'])
-            ->givePermissionTo(['Acceso a Administración', 'Acceso a Zonas', 'Acceso a Areas']);
+            ->givePermissionTo([
+                'Acceso a Inicio',
+                'Acceso a Graficas',
+                'Acceso a Predicciones',
+                'Acceso a Evidencias de Generación',
+                'Acceso a Meta Anual',
+                'Acceso a Administración',
+                'Acceso a Zonas',
+                'Acceso a Areas',
+                'Acceso a Subproductos',
+            ]);
 
         // Pueden haber permisos por separado
         $role = Role::create(['name' => 'Participante']);
