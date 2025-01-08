@@ -51,6 +51,7 @@ class InstitutoController extends Controller
                 'numeric', // Asegura que el valor sea un número
                 'max:100' // Limita el número entero a un máximo de 1000
             ],
+            'total_personas' => 'nullable|integer',
         ]);
 
         $data = $request->all();
@@ -120,6 +121,7 @@ class InstitutoController extends Controller
                 'numeric', // Asegura que el valor sea un número
                 'max:100' // Limita el número entero a un máximo de 1000
             ],
+            'total_personas' => 'nullable|integer',
         ]);
 
         $data = $request->all();

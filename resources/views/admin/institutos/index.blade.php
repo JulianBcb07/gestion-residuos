@@ -104,7 +104,7 @@
                             </div>
                             <div class="mb-6">
                                 <div class="flex justify-between flex-wrap gap-2 w-full mb-4">
-                                    <span class="text-gray-700 font-bold">Objetivo</span>
+                                    <span class="text-gray-700 font-bold">Meta Anual Objetivo</span>
                                     {{-- <p>
                                         <span class="text-gray-700 mr-2">at ABC Company</span>
                                         <span class="text-gray-700">2017 - 2019</span>
@@ -119,6 +119,26 @@
                                         role="alert">
                                         <span class="font-medium">Alerta meta anual!</span> Para quitar esta alerta
                                         ingrese la meta anual de su universidad.
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="mb-6">
+                                <div class="flex justify-between flex-wrap gap-2 w-full mb-4">
+                                    <span class="text-gray-700 font-bold">Total personas</span>
+                                    {{-- <p>
+                                        <span class="text-gray-700 mr-2">at ABC Company</span>
+                                        <span class="text-gray-700">2017 - 2019</span>
+                                    </p> --}}
+                                </div>
+                                @if ($instituto->total_personas != null)
+                                    <p class="mt-2">
+                                        {{ $instituto->total_personas }}
+                                    </p>
+                                @else
+                                    <div class="p-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:text-blue-400"
+                                        role="alert">
+                                        <span class="font-medium">Alerta total de personas!</span> Para quitar esta alerta
+                                        ingrese el total de personas de su universidad.
                                     </div>
                                 @endif
                                 

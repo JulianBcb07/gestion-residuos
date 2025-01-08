@@ -17,6 +17,12 @@ class ZonasAreas extends Model
         return $this->belongsTo(Zona::class);
     }
 
+    public function zona()
+    {
+        return $this->belongsTo(Zona::class, 'zona_id');
+    }
+
+
     public function areas()
     {
         return $this->belongsTo(Area::class);

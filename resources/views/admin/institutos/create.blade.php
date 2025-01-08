@@ -134,6 +134,13 @@
                                 <x-input type="number" step="0.01" class="w-full" name="meta_anual"
                                     placeholder="Ingrese la meta anual de la universidad" value="{{ old('meta_anual') }}" />
                             </div>
+                            <div class="mb-4">
+                                <x-label class="mb-1">
+                                    Total personas
+                                </x-label>
+                                <x-input type="number" class="w-full" name="total_personas"
+                                    placeholder="Ingrese el total de personas en la universidad" value="{{ old('total_personas') }}" />
+                            </div>
                         </div>
             </form>
         </div>

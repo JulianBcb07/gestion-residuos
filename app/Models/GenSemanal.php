@@ -24,4 +24,9 @@ class GenSemanal extends Model
     {
         return $this->belongsTo(ZonasAreas::class);
     }
+
+    public function zonaArea()
+    {
+        return $this->belongsTo(ZonasAreas::class, 'zonas_areas_id');
+    }
 }

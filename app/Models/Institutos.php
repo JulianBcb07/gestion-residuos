@@ -21,6 +21,7 @@ class Institutos extends Model
         'email',
         'sitio_web',
         'meta_anual',
+        'total_personas',
     ];
 
     protected function image(): Attribute
