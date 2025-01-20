@@ -27,6 +27,11 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'Gestion de Permisos']);
         Permission::create(['name' => 'Gestion de Usuarios']);
         Permission::create(['name' => 'Gestion de MiTecnológico']);
+        Permission::create(['name' => 'Acceso a Inicio']);
+        Permission::create(['name' => 'Acceso a Graficas']);
+        Permission::create(['name' => 'Acceso a Predicciones']);
+        Permission::create(['name' => 'Acceso a Evidencias de Generación']);
+        Permission::create(['name' => 'Acceso a Meta Anual']);
 
         // update cache to know about the newly created permissions (required if using WithoutModelEvents in seeders)
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
