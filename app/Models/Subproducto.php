@@ -14,6 +14,6 @@ class Subproducto extends Model
 
     public function genSubproducto()
     {
-        return $this->hasMany(GenSubprodcuto::class);
+        return $this->hasMany(GenSubproducto::class);
     }
 }
