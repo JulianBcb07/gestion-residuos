@@ -64,3 +64,49 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# 🗑️ Sistema de Gestión de Residuos - Laravel 11
+
+Este proyecto es una aplicación web desarrollada con Laravel 11 para la gestión de residuos. Permite administrar usuarios, tipos de residuos, recolecciones y reportes, entre otras funcionalidades.
+
+## 🚀 Requisitos
+
+Antes de comenzar, asegúrate de tener instalado:
+
+- PHP >= 8.2
+- Composer
+- Laravel 11
+- MySQL o PostgreSQL
+- Node.js y NPM
+- Extensiones de PHP necesarias: `pdo`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, `bcmath`
+
+## 🛠️ Instalación
+
+Sigue estos pasos para instalar y correr el proyecto localmente:
+
+```bash
+# 1. Clonar el repositorio
+git clone 
+
+# 2. Instalar dependencias de PHP
+composer install
+
+# 3. Copiar archivo de entorno
+cp .env.example .env
+
+# 4. Generar la clave de la aplicación
+php artisan key:generate
+
+# 5. Configurar variables de entorno
+# Edita el archivo .env y agrega tus credenciales de base de datos
+
+# 6. Ejecutar migraciones y seeders
+php artisan migrate --seed
+
+# 7. Instalar dependencias frontend
+npm install
+npm run dev
+
+# 8. Levantar el servidor de desarrollo
+php artisan serve
+
